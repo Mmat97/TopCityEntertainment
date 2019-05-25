@@ -81,36 +81,23 @@ for link in tb.find_all('tr'):
 					else:
 						if('Football' in link2.text): 
 							Fcurrent+=1
-							print(link2)
 						elif('Baseball' in link2.text): 
 							Bcurrent+=1
 						elif('Soccer' in link2.text):
 							Scurrent+=1
 				else:
-					continue
-					
-					
-					
-					
-					
-					
-					
+					continue					
         	citylist.append(Row(city.text,mFcurrent,mBcurrent,mScurrent,Fcurrent,Bcurrent,Scurrent))
 	else:
 		break
-
-       
+				
+csvData=[['City', 'MFootball','MBaseball','MSoccer','football','baseball','soccer']]
 for x in citylist:
 	if (x.cityname!= '[c]' ):
-		print("City: " + x.cityname)
-		print("MFootball: " ,x.mFootball)
-		print("MBaseball: " , x.mBaseball)
-		print("MSoccer: " , x.mSoccer)
-		print("football: " , x.football)
-		print("Baseball: " , x.baseball)
-		print("soccer: " , x.soccer)
-"""
-with open('output.csv', 'wb') as csvfile:
-	writer = csv.writer(csvfile)
-	writer.writerows(citylist)
-"""
+		csvData.append([x.cityname, x.mFootball,x.mBaseball,x.mSoccer,x.football,x.baseball,x.soccer])
+
+with open('output.csv', 'w') as csvFile:
+    writer = csv.writer(csvFile)
+    writer.writerows(csvData)
+
+csvFile.close()
