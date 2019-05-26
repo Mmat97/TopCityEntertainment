@@ -18,48 +18,57 @@ a variety of stadium sports can have an impact on a neighborhood's culture
 
 
 ## Tools/Languages/References
-**Languages:** 
-Python
+**Language:** 
+
+-Python
 [Python Website](https://www.python.org/)
 
 **Libraries:** 
-Beautiful Soup
+
+-Beautiful Soup
 [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
-Requests
+-Requests
 [Requests](https://pypi.org/project/requests/2.7.0/)
 
 **OS Used:** 
-Mac OS(Terminal)
+
+-Mac OS(Terminal)
 
 
 ## Installation and Run Example
 **Install:** 
-'''html
+
+```
 	pip install python-csv
-'''
+```
 
-'''html
+```
 	pip install wikipedia
-'''
+```
 
-'''html
+```
 	pip install requests
-'''
+```
 
-'''html
+```
 	pip install beautifulsoup4
-'''
+```
+
 **Run:** 
+
 In terminal, once in the directory where the csv_generate.py file is located,type:
-'''html
+
+```
 	python csv_generate.py
-'''
+```
+
 
 A file named, output.csv(specified in the code) will be created in the proper csv format 
 
 
 ##Important Notes:
+
 **NOTE 1:** Adding state column since there can be more than
 one city with the same name
 Ex: Manhattan, NY vs. Manhattan, KS
