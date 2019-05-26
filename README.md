@@ -35,13 +35,29 @@ Mac OS(Terminal)
 
 ## Installation and Run Example
 **Install:** 
-```html
+'''html
+	pip install python-csv
+'''
 
-```
+'''html
+	pip install wikipedia
+'''
+
+'''html
+	pip install requests
+'''
+
+'''html
+	pip install beautifulsoup4
+'''
 **Run:** 
-```html
+In terminal, once in the directory where the csv_generate.py file is located,type:
+'''html
+	python csv_generate.py
+'''
 
-```
+A file named, output.csv(specified in the code) will be created in the proper csv format 
+
 
 ##Important Notes:
 **NOTE 1:** Adding state column since there can be more than
