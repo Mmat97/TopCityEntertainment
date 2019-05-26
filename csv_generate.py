@@ -19,7 +19,7 @@ stadium_table = soup2.find("table", class_ = "wikitable sortable")
 	#NL_Football=NFL owned stadium
 	#ML_Baseball=MLB owned stadium
 	#ML_Soccer=MLS owned stadium
-csvData=[['City', 'NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer']]
+csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer']]
 
 def csv_generator(csvData):
 	with open('output.csv', 'w') as csvFile:
@@ -30,9 +30,9 @@ def csv_generator(csvData):
 	
 
 
-def additional_checks(other_cities_list, parsed_text, city_name):
+def additional_checks(other_cities_list, parsed_text, city_name,current_state):
 	for x in other_cities_list:
-		if((x in parsed_text) and ('New York' in parsed_text)):
+		if((x in parsed_text) and (current_state in parsed_text)):
 			return x
 	return city_name
 
@@ -43,6 +43,7 @@ additionals=['Flushing','Bronx','Brooklyn','Manhattan','Queens','Staten Island']
 city_count=0
 for link in tb.find_all('tr'):
 	#Each column count resets
+	
 	nl_football=0
 	ml_baseball=0
 	ml_soccer=0
@@ -53,9 +54,10 @@ for link in tb.find_all('tr'):
 	city_count=city_count+1
 	if(city_count<7):#Max number of rows
 		city = link.find('a')
+		state=((city.find_next("a",title=True)))
 		if (city.text != '[c]' ):
 			for stadium_city in stadium_table.find_all('tr'):
-				current_city=additional_checks(additionals,stadium_city.text,city.text)
+				current_city=additional_checks(additionals,stadium_city.text,city.text,state.text)
 				
 
 				if(current_city in stadium_city.text):
@@ -76,7 +78,7 @@ for link in tb.find_all('tr'):
 							soccer+=1
 				else:
 					continue
-			csvData.append([city.text, nl_football,ml_baseball,ml_soccer,football,baseball,soccer])
+			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer])
 	else:
 		break
 		

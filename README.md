@@ -33,8 +33,6 @@ Requests
 Mac OS(Terminal)
 
 
-
-
 ## Installation and Run Example
 **Install:** 
 ```html
@@ -45,8 +43,20 @@ Mac OS(Terminal)
 
 ```
 
+##Important Notes:
+**NOTE 1:** Adding state column since there can be more than
+one city with the same name
+Ex: Manhattan, NY vs. Manhattan, KS
 
-## Next Steps
+**NOTE 2:** A stadium is counted for certain city also when a sport 
+tenant/team from that city owns the stadium 
+
+**NOTE 3:** Currently focusing on Football, Soccer and Baseball stadiums. May add 
+Tennis, Racing, and multi-purpose stadiums in a later version. 
+	
+## Next Steps 
+1. I hope to use other sources and add more recent/accurate data to the set since Wikipedia 
+	can often lack in this.
 
 
 
