@@ -19,7 +19,7 @@ stadium_table = soup2.find("table", class_ = "wikitable sortable")
 	#NL_Football=NFL owned stadium
 	#ML_Baseball=MLB owned stadium
 	#ML_Soccer=MLS owned stadium
-csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer', 'Comic-Con']]
+csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer']]
 
 def csv_generator(csvData):
 	with open('output.csv', 'w') as csvFile:
@@ -78,19 +78,8 @@ for link in tb.find_all('tr'):
 							soccer+=1
 				else:
 					continue
-			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer, "N/A"])
+			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer])
 	else:
 		break
 		
-		
-		
-		
-	
-	
-		
-		
-		
-		
-		
-		
-csv_generator(csvData)
+	csv_generator(csvData)
