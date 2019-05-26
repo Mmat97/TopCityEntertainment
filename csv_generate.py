@@ -1,103 +1,83 @@
+import csv
 import requests
 from bs4 import BeautifulSoup
 
-import csv
-
-
-
-class Row:
-  def __init__(self, cityname, mFootball,mBaseball,mSoccer,football,baseball,soccer):
-    self.cityname = cityname
-    self.mFootball = mFootball
-    self.mBaseball = mBaseball
-    self.mSoccer = mSoccer
-    self.football = football
-    self.baseball = baseball
-    self.soccer = soccer
-    
   
-
-
-
-citylist=[]
-citycount=0
-
+#Retrieve Data and parse in to html for each web page specified
 url = "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population"
 page = requests.get(url)
-soup = BeautifulSoup(page.content, 'html.parser')
-
-
+soup = BeautifulSoup(page.content, 'html.parser') 
+tb = soup.find("table", class_ = "wikitable sortable")
 url2="https://en.wikipedia.org/wiki/List_of_U.S._stadiums_by_capacity"
 page2 = requests.get(url2)
 soup2 = BeautifulSoup(page2.content, 'html.parser')
-
-"""
-tb = soup.find("table",{"class":"wikitable sortable"})
+stadium_table = soup2.find("table", class_ = "wikitable sortable")
 
 
 
-for link in tb.find_all('b'):
-	print(link.get_text('title'))
-    #name = link.find('a')
-""" 
+#Initialize csv with columns 
+	#NL_Football=NFL owned stadium
+	#ML_Baseball=MLB owned stadium
+	#ML_Soccer=MLS owned stadium
+csvData=[['City', 'NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer']]
 
-tb = soup.find("table", class_ = "wikitable sortable")
-tb2 = soup2.find("table", class_ = "wikitable sortable")
+def csv_generator(csvData):
+	with open('output.csv', 'w') as csvFile:
+		writer = csv.writer(csvFile)
+		writer.writerows(csvData)
+	csvFile.close()
 
+	
+
+
+def additional_checks(other_cities_list, parsed_text, city_name):
+	for x in other_cities_list:
+		if((x in parsed_text) and ('New York' in parsed_text)):
+			return x
+	return city_name
+
+
+
+
+additionals=['Flushing','Bronx','Brooklyn','Manhattan','Queens','Staten Island']
+city_count=0
 for link in tb.find_all('tr'):
-	mFcurrent=0
-	mBcurrent=0
-	mScurrent=0
-	Fcurrent=0
-	Bcurrent=0
-	Scurrent=0
-	currentCity=""
-	citycount=citycount+1
-	if(citycount<7):
+	#Each column count resets
+	nl_football=0
+	ml_baseball=0
+	ml_soccer=0
+	football=0
+	baseball=0
+	soccer=0
+	current_city=""#one of the top cities 
+	city_count=city_count+1
+	if(city_count<7):#Max number of rows
 		city = link.find('a')
-		if (city != None ):
-			for link2 in tb2.find_all('tr'):
-				currentCity=city.text
-				if('Flushing' in link2.text and ('New York' in link2.text)):
-					currentCity='Flushing'
-				if('Bronx' in link2.text and ('New York' in link2.text)):
-					currentCity='Bronx'
-				if('Brooklyn' in link2.text and ('New York' in link2.text)):
-					currentCity='Brooklyn'
-				if('Manhattan' in link2.text and ('New York' in link2.text)):
-					currentCity='Manhattan'
-				if('Queens' in link2.text and ('New York' in link2.text)):
-					currentCity=Queens;
-				if('Staten Island' in link2.text and ('New York' in link2.text)):
-					currentCity='Staten Island'
-				if(currentCity in link2.text):
-					if(link2.has_attr("style")):
-						if('Football' in link2.text):
-							mFcurrent+=1
-						elif('Baseball' in link2.text): 
-							mBcurrent+=1
-						elif('Soccer' in link2.text):
-							mScurrent+=1
+		if (city.text != '[c]' ):
+			for stadium_city in stadium_table.find_all('tr'):
+				current_city=additional_checks(additionals,stadium_city.text,city.text)
+				
+
+				if(current_city in stadium_city.text):
+				#stadium_city.has_attr("style") is only used for major league
+					if(stadium_city.has_attr("style")):
+						if('Football' in stadium_city.text):
+							nl_football+=1
+						elif('Baseball' in stadium_city.text): 
+							ml_baseball+=1
+						elif('Soccer' in stadium_city.text):
+							ml_soccer+=1
 					else:
-						if('Football' in link2.text): 
-							Fcurrent+=1
-						elif('Baseball' in link2.text): 
-							Bcurrent+=1
-						elif('Soccer' in link2.text):
-							Scurrent+=1
+						if('Football' in stadium_city.text):
+							football+=1
+						elif('Baseball' in stadium_city.text): 
+							baseball+=1
+						elif('Soccer' in stadium_city.text):
+							soccer+=1
 				else:
-					continue					
-        	citylist.append(Row(city.text,mFcurrent,mBcurrent,mScurrent,Fcurrent,Bcurrent,Scurrent))
+					continue
+			csvData.append([city.text, nl_football,ml_baseball,ml_soccer,football,baseball,soccer])
 	else:
 		break
-				
-csvData=[['City', 'MFootball','MBaseball','MSoccer','football','baseball','soccer']]
-for x in citylist:
-	if (x.cityname!= '[c]' ):
-		csvData.append([x.cityname, x.mFootball,x.mBaseball,x.mSoccer,x.football,x.baseball,x.soccer])
-
-with open('output.csv', 'w') as csvFile:
-    writer = csv.writer(csvFile)
-    writer.writerows(csvData)
-
-csvFile.close()
+		
+	csv_generator(csvData)
