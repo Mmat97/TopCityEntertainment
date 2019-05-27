@@ -21,7 +21,8 @@ stadium_table = soup2.find("table", class_ = "wikitable sortable")
 	#NL_Football=NFL owned stadium built
 	#ML_Baseball=MLB owned stadium built
 	#ML_Soccer=MLS owned stadium built
-csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer', 'Active Comic-Con', 'Dave Chapelle Events']]
+csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball',
+'soccer', 'Active Comic-Con', 'Dave Chapelle Events']]
 
 def csv_generator(csvData):
 	with open('output.csv', 'w') as csvFile:
@@ -39,6 +40,8 @@ def additional_checks(other_cities_list, parsed_text, city_name,current_state):
 				return x
 	return city_name
 
+
+#if state is not given 
 def additional_checks2(other_cities_list, parsed_text, city_name):
 	if(city_name=='New York City'):
 		for x in other_cities_list:
@@ -118,8 +121,6 @@ for y in citylist:
 	for convention_info in comic_sched.find_all('p'):
 		current_city=additional_checks2(additionals,convention_info.text,y)
 		if(current_city in convention_info.text):	#increment for each city
-			print(current_city)
-			print(convention_info.text)
 			csvData[count][8]+=1
 		
 		
@@ -151,6 +152,12 @@ for y in citylist:
 		current_city=additional_checks2(additionals,show_info.text,y)
 		if(current_city in show_info.text):	#increment for each city
 			csvData[count][9]+=1
+
+
+
+
+
+
 
 
 
