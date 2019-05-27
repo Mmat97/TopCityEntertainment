@@ -31,14 +31,22 @@ Chapelle has visited each of these cities.
 
 ## Advantages
 1.Scans and analyzes more than one table on the web
+
 2. Focuses on amounts so can be transferred easily to a bar graph 
+
 3. Generates a csv file which can be analyzed alongside other data to see how 
 a variety of entertainment can have an impact on a neighborhood's culture
+
 4. Sport Stadiums: Separates Major League owned Stadiums and non-Major League owned Stadiums
+
 5. Comic-Cons: Captures data regarding upcoming comic-cons from 
 a list and not just a table 
+
 6. Dave Chapelle Events: Focuses on location links to match with major cities that we
 are currently examining 
+
+7. Ariana Grande Events: Can obtain information from multiple pages with little changes to
+the scanner_one algorithm 
 
 
 
@@ -94,6 +102,17 @@ In terminal, once in the directory where the csv_generate.py file is located,typ
 
 
 A file named, output.csv(specified in the code) will be created in the proper csv format 
+
+
+## Functions
+
+scanner_one: a function to scan similar web pages in a similar fashion 
+
+missing_data_exception: used to check if missing the expected html value, exit program 
+
+additional_checks: checks for villages/boroughs within a city
+
+csv_generator: generates csv with given rows 
 
 
 

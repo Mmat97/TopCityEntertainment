@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import sys
 import re
-  
+
 #Retrieve Data and parse in to html for each web page specified
 url = "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population"
 page = requests.get(url)
@@ -25,12 +25,14 @@ page4 = requests.get(url4)
 soup4 = BeautifulSoup(page4.content, 'html.parser')
 dave_sched = soup4.find(class_ = "table-responsive")
 
+
+
 #Initialize csv with columns 
 	#NL_Football=NFL owned stadium built
 	#ML_Baseball=MLB owned stadium built
 	#ML_Soccer=MLS owned stadium built
 csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball',
-'soccer', 'Active Comic-Con', 'Dave Chapelle Events']]
+'soccer', 'Active Comic-Con', 'Dave Chapelle Events','Ariana Grande Events']]
 
 
 
@@ -72,16 +74,15 @@ def scanner_one(sched,list_of_cities,num,list_to_check, find_all_value):
 	count=0
 	for y in list_of_cities:
 		count+=1
+		
 		if(find_all_value!='location'):
-			for info in sched.find_all(find_all_value):
-				current_city=additional_checks2(list_to_check,info.text,y)
-				if(current_city in info.text):	#increment for each city
-					csvData[count][num]+=1
+			z=sched.find_all(find_all_value)
 		else:
-			for info in sched.find_all(href=re.compile(find_all_value)):
-				current_city=additional_checks2(list_to_check,info.text,y)
-				if(current_city in info.text):	#increment for each city
-					csvData[count][num]+=1
+			z=sched.find_all(href=re.compile(find_all_value))
+		for info in z:
+			current_city=additional_checks2(list_to_check,info.text,y)
+			if(current_city in info.text):	#increment for each city
+				csvData[count][num]+=1
 
 
 
@@ -132,12 +133,11 @@ for link in city_table.find_all('tr'):
 				else:
 					continue
 			citylist.append(city.text)
-			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer, 0, 0])
+			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer, 0, 0,0])
 	else:
 		break
 		
 		
-
 
 
 
@@ -148,6 +148,20 @@ additionals.append('Garden City')
 scanner_one(comic_sched,citylist,8,additionals,'p')
 scanner_one(dave_sched,citylist,9,additionals,"location")
 
+
+
+#Loop only for ariana and not chapelle because ariana has multiple pages 
+i=1
+while(i<10):
+	url5="https://www.concertarchives.org/bands/ariana-grande?page="+str(i)
+	page5 = requests.get(url5)
+	soup5 = BeautifulSoup(page5.content, 'html.parser')
+	ariana_sched = soup5.find(class_ = "table-responsive")
+	ariana_sched_page = soup5.find(class_ = "pagination pagination")
+	if(str(i) not in ariana_sched_page.text):#only 6 pages
+		break
+	scanner_one(ariana_sched,citylist,10,additionals,"location")
+	i+=1
 
 
 
