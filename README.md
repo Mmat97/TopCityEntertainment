@@ -1,23 +1,29 @@
 # MajorCityEntertainment
 MajorCitySports is a web-scraping application devoted for Topos.ai 
-for obtaining datasets on different entertainment to see what makes a major city unique 
+for examining the differences between major cities through entertainment 
 
 ## Description
-MajorCityEntertainment makes use of more than one wikipedia page to go past basic city 
-information and go more specifically into entertainment
+MajorCityEntertainment makes use of more than one web page to go past basic city 
+information and go more specifically into entertainment culture to see what makes a city
+unique
 
-## Ver 1.0: Sport Stadiums 
-
-Is there a similar trend for major cities in the number of stadiums for each sport
+## Ver 1.0: Cities, Sport Stadiums Built
+Is there a major difference for top cities in the number of stadiums for each sport
 that they have? The application currently obtains the names of the most populous cities
 and the number of stadiums opened for sports such as Football,
-Soccer and Baseball corresponding to those cities to examine if this is true or not.
+Soccer and Baseball corresponding to those cities to examine if there is 
+a similar trend or not.
 
 
-## Ver 2.0(Under Construction): Comic - Cons
-Going beyond stadiums, ver 2.0 will check if there is a connection between
+## Ver 2.0: Adding Comic - Cons
+Going beyond stadiums, ver 2.0 will check if there is a relationship between
 stadiums and the number of ACTIVE comic-cons along with if the number of comic-cons 
-vary between major cities. 
+is unique for each city. 
+
+## Ver 3.0(Current Version): Adding number of times Dave Chapelle had an event
+Does the number of times a celebrity visits a city emphasize difference between cities?
+Ver 3.0, adds a more specific data set by viewing the number of times a celebrity such as Dave 
+Chapelle has visited each of these cities. 
 
 
 ## Advantages
@@ -25,6 +31,10 @@ vary between major cities.
 2. Generates a csv file which can be analyzed alongside other data to see how 
 a variety of entertainment can have an impact on a neighborhood's culture
 3. Sport Stadiums: Separates Major League owned Stadiums and non-Major League owned Stadiums
+4. Comic-Cons: Captures data regarding upcoming comic-cons from 
+a list and not just a table 
+5. Dave cHapelle Events: Focuses on location links to match with major cities that we
+are currently examining 
 
 
 
@@ -47,7 +57,7 @@ a variety of entertainment can have an impact on a neighborhood's culture
 -Mac OS(Terminal)
 
 
-## Installation and Run Example
+## Installation and how to Run 
 **Install:** 
 
 ```
@@ -66,6 +76,9 @@ a variety of entertainment can have an impact on a neighborhood's culture
 	pip install beautifulsoup4
 ```
 
+
+
+
 **Run:** 
 
 In terminal, once in the directory where the csv_generate.py file is located,type:
@@ -77,6 +90,26 @@ In terminal, once in the directory where the csv_generate.py file is located,typ
 
 A file named, output.csv(specified in the code) will be created in the proper csv format 
 
+
+
+## Example
+
+Stadiums Results: At first glance, the number of sports stadiums opened
+vary greatly for each major city.
+
+
+Comic-Con Results: From this example, each major city seems to have the same or a close 
+number of comic-cons.
+
+Dave Chapelle Shows: From this example, it seems New York and Houston have more  
+Dave Chapelle Events 
+
+However, a conclusion can't be truly given for either case as the web site sources such as
+wikipedia do not always give valid estimates 
+and there may be outliers that have yet to be examined. 
+
+The csv is generated in the proper format, however,
+allowing for more in-depth visualization and analysis, 
 
 ## Important Notes:
 
@@ -90,18 +123,9 @@ tenant/team from that city owns the stadium
 **NOTE 3:** The stadiums focused on include stadiums that were 
 renovated and/or closed down 
 
-**NOTE 4:** Currently focusing on Football, Soccer and Baseball stadiums. May add 
-Tennis, Racing, and multi-purpose stadiums in a later version. 
-	
-## Possible Additions 
-1. Adding other sources and add more recent and accurate data to the set since 
-Wikipedia can often lack in this.
-2.Focus only on closed down stadiums 
-3. Adding data sets on other forms of entertainment
-4. Displaying data as a bar graph to make it more easier to visualize
-5. Adding data sets to examine changes under a span of time and not just amounts
-6. Add more edge cases in case of altered or deleted data 
+**NOTE 4:** Currently focusing on Football, Soccer and Baseball stadiums 
 
+**NOTE 5:** Comic-con data and Dave Chapelle Events do not come from wikipedia 
 
 
 

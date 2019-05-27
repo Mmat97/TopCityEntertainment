@@ -2,8 +2,6 @@ import csv
 import requests
 from bs4 import BeautifulSoup
 import sys
-
-import re
   
 #Retrieve Data and parse in to html for each web page specified
 url = "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population"
@@ -21,7 +19,7 @@ stadium_table = soup2.find("table", class_ = "wikitable sortable")
 	#NL_Football=NFL owned stadium built
 	#ML_Baseball=MLB owned stadium built
 	#ML_Soccer=MLS owned stadium built
-csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer', 'Active Comic-Con', 'Dave Chapelle Events']]
+csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball','soccer', 'Active Comic-Con']]
 
 def csv_generator(csvData):
 	with open('output.csv', 'w') as csvFile:
@@ -33,17 +31,15 @@ def csv_generator(csvData):
 
 
 def additional_checks(other_cities_list, parsed_text, city_name,current_state):
-	if(city_name=='New York City'):
-		for x in other_cities_list:
-			if((x in parsed_text) and (current_state in parsed_text)):
-				return x
+	for x in other_cities_list:
+		if((x in parsed_text) and (current_state in parsed_text)):
+			return x
 	return city_name
 
 def additional_checks2(other_cities_list, parsed_text, city_name):
-	if(city_name=='New York City'):
-		for x in other_cities_list:
-			if((x in parsed_text)):
-				return x
+	for x in other_cities_list:
+		if((x in parsed_text)):
+			return x
 	return city_name
 
 
@@ -90,7 +86,7 @@ for link in city_table.find_all('tr'):
 				else:
 					continue
 			citylist.append(city.text)
-			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer, 0, 0])
+			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer, 0])
 	else:
 		break
 		
@@ -111,6 +107,7 @@ additionals.append('Garden City')# extra case, village IN New York
 if(comic_sched==None):
 	print("Missing web data")
 	sys.exit(1)
+Pheonixcount=0
 
 count=0
 for y in citylist:
@@ -118,44 +115,11 @@ for y in citylist:
 	for convention_info in comic_sched.find_all('p'):
 		current_city=additional_checks2(additionals,convention_info.text,y)
 		if(current_city in convention_info.text):	#increment for each city
-			print(current_city)
-			print(convention_info.text)
 			csvData[count][8]+=1
 		
 		
 
-
-
-
-
-
-url4="https://www.concertarchives.org/bands/dave-chappelle"
-page4 = requests.get(url4)
-soup4 = BeautifulSoup(page4.content, 'html.parser')
-dave_sched = soup4.find(class_ = "table-responsive")
-
-if(dave_sched==None):
-	print("Missing web data")
-	sys.exit(1)
-
-
-#for i in csvData:
-#	print i
-
-
-
-count=0
-for y in citylist:
-	count+=1
-	for show_info in dave_sched.find_all(href=re.compile("location")):
-		current_city=additional_checks2(additionals,show_info.text,y)
-		if(current_city in show_info.text):	#increment for each city
-			csvData[count][9]+=1
-
-
-
-
-
+		
 		
 		
 csv_generator(csvData)
