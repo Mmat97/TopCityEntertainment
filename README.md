@@ -1,7 +1,8 @@
 # MajorCityEntertainment
 MajorCitySports is a web-scraping application devoted for Topos.ai 
-for examining the differences between major cities through entertainment by generating 
-a csv(output.csv) to allow for easier visualization of the data 
+for examining if there are major differences between top cities through entertainment 
+by generating a csv(output.csv) to allow for easier visualization of the 
+data(mainly numerical)
 
 ## Description
 MajorCityEntertainment makes use of more than one web page to go past basic city 
@@ -23,9 +24,16 @@ stadiums and the number of ACTIVE comic-cons along with if the number of comic-c
 is unique for each city. 
 
 ## Ver 3.0: Adding number of times Dave Chapelle had an event
-Does the number of times a celebrity visits a city emphasize difference between cities?
-Ver 3.0, adds a more specific data set by viewing the number of times a celebrity such as Dave 
-Chapelle has visited each of these cities. 
+Does the number of times a comedy celebrity visits a city emphasize difference between cities?
+Ver 3.0, adds a more specific data set by helping to view 
+the number of times a celebrity such as Dave Chapelle has visited each of these cities. 
+
+
+## Ver 4.0(Current Version): Adding number of times Ariana Grande had an event
+Does the number of times a music celebrity visits 
+a city emphasize difference between cities?
+Ver 4.0, helps view the number
+of times a celebrity such as Ariana Grande has visited each of these cities. 
 
 
 
@@ -119,17 +127,24 @@ csv_generator: generates csv with given rows
 ## Example
 
 Stadiums Results: At first glance, the number of sports stadiums opened
-vary greatly for each major city.
+vary greatly for each major city, except Phoenix most likely due to most stadiums 
+being outside of the city itself
 
-
-Comic-Con Results: From this example, each major city seems to have the same or a close 
-number of comic-cons.
+Comic-Con Results: New York City seems to have the most Comic-cons while 
+Phoenix is shown to not have any at all. 
 
 Dave Chapelle Shows: From this example, it seems New York and Houston have more  
-Dave Chapelle Events 
+Dave Chapelle Events while other cities have very little. 
 
-However, a conclusion can't be truly given on whether their is a relationship 
-between cities or certain data sets as the web site sources such as
+Ariana Grande: It also appears that Ariana Grande appears a lot in New York City.
+
+So far New York City is shown to be the most different compared to the other cities
+in the number of comic-cons it hosts every year
+while still hosting comedians such as Dave Chapelle and 
+singers such as Ariana Grande according to the data so far.
+
+However, a conclusion can't be truly given on whether their is a major difference
+between cities since data sets and web site sources such as
 wikipedia do not always give valid estimates 
 and there may be outliers that have yet to be examined. 
 
@@ -150,7 +165,8 @@ renovated and/or closed down
 
 **NOTE 4:** Currently focusing on Football, Soccer and Baseball stadiums 
 
-**NOTE 5:** Comic-con data and Dave Chapelle Events do not come from wikipedia 
+**NOTE 5:** Comic-con data, Dave Chapelle Events, and Ariana Grande 
+do not come from wikipedia 
 
 
 

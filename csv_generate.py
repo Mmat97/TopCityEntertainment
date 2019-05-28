@@ -4,6 +4,12 @@ from bs4 import BeautifulSoup
 import sys
 import re
 
+
+
+
+
+
+
 #Retrieve Data and parse in to html for each web page specified
 url = "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population"
 page = requests.get(url)
@@ -150,6 +156,7 @@ scanner_one(dave_sched,citylist,9,additionals,"location")
 
 
 
+
 #Loop only for ariana and not chapelle because ariana has multiple pages 
 i=1
 while(i<10):
@@ -162,6 +169,9 @@ while(i<10):
 		break
 	scanner_one(ariana_sched,citylist,10,additionals,"location")
 	i+=1
+
+
+
 
 
 
