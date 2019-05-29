@@ -132,6 +132,8 @@ parameters
 
 
 ## Example
+<img width="1280" alt="Screen Shot 2019-05-29 at 6 08 44 PM" src="https://user-images.githubusercontent.com/13366041/58594866-d8e44d00-823c-11e9-8dd6-f95e2cf8a0de.png">
+
 
 Stadiums Results: At first glance, the number of sports stadiums opened
 vary greatly for each major city, except Phoenix most likely due to most stadiums 
