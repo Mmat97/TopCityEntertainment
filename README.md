@@ -147,11 +147,9 @@ Dave Chapelle Events while other cities have very little.
 
 Ariana Grande: It also appears that Ariana Grande appears a lot in New York City.
 
-So far New York City is shown to be the most different compared to the other cities
-in the number of comic-cons it hosts every year
-while still hosting comedians such as Dave Chapelle and 
-singers such as Ariana Grande according to the data so far.
-
+So far New York City, having the most comic-cons every year
+while hosting comedians such as Dave Chapelle and 
+singers such as Ariana Grande, and Phoenix, having not many events for any of the categories, appear to be the most different.
 However, a conclusion can't be truly given on whether their is a major difference
 between cities since data sets and web site sources such as
 wikipedia do not always give valid estimates 
