@@ -1,178 +1,187 @@
+import re
 import csv
+import sys
 import requests
 from bs4 import BeautifulSoup
-import sys
-import re
 
 
 
 
-
-
-
-#Retrieve Data and parse in to html for each web page specified
-url = "https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population"
-page = requests.get(url)
-soup = BeautifulSoup(page.content, 'html.parser') 
-city_table = soup.find("table", class_ = "wikitable sortable")
-
-url2="https://en.wikipedia.org/wiki/List_of_U.S._stadiums_by_capacity"
-page2 = requests.get(url2)
-soup2 = BeautifulSoup(page2.content, 'html.parser')
-stadium_table = soup2.find("table", class_ = "wikitable sortable")
-
-url3="https://www.previewsworld.com/Article/87466-Comic-Convention-Calendar"
-page3 = requests.get(url3)
-soup3 = BeautifulSoup(page3.content, 'html.parser')
-comic_sched = soup3.find(class_ = "articleContents")
-
-url4="https://www.concertarchives.org/bands/dave-chappelle"
-page4 = requests.get(url4)
-soup4 = BeautifulSoup(page4.content, 'html.parser')
-dave_sched = soup4.find(class_ = "table-responsive")
-
-
-
-#Initialize csv with columns 
-	#NL_Football=NFL owned stadium built
-	#ML_Baseball=MLB owned stadium built
-	#ML_Soccer=MLS owned stadium built
-csvData=[['City', 'State','NL_Football','ML_Baseball','ML_Soccer','football','baseball',
-'soccer', 'Active Comic-Con', 'Dave Chapelle Events','Ariana Grande Events']]
-
-
-
-
-
-
-
-
+#FUNCTIONS
 def csv_generator(csvData):
 	with open('output.csv', 'w') as csvFile:
 		writer = csv.writer(csvFile)
 		writer.writerows(csvData)
 	csvFile.close()
 
-def additional_checks(other_cities_list, parsed_text, city_name,current_state):
-	if(city_name=='New York City'):
-		for x in other_cities_list:
-			if((x in parsed_text) and (current_state in parsed_text)):
-				return x
-	return city_name
+def scraper(url):
+	page = requests.get(url)
+	soup = BeautifulSoup(page.content, 'html.parser') 
+	if('wikipedia' in url):
+		class_value='wikitable sortable'
+	elif('previews' in url):
+		class_value='articleContents'
+	elif('concertarchives' in url):
+		class_value='table-responsive'
+	return soup.find(class_ = class_value)
 
-#if state is not given 
-def additional_checks2(other_cities_list, parsed_text, city_name):
+
+
+def additional_checks(other_cities_list, parsed_text, city_name):
 	if(city_name=='New York City'):
 		for x in other_cities_list:
 			if((x in parsed_text)):
 				return x
 	return city_name
 
-def missing_data_exception(x):
-	if(x==None):
-		print("Missing web data")
-		sys.exit(1)
 
+def hasNum(string_to_check):
+	return bool(re.search(r'\d', string_to_check))
 
-
-def scanner_one(sched,list_of_cities,num,list_to_check, find_all_value):
-	missing_data_exception(sched)
-	count=0
-	for y in list_of_cities:
-		count+=1
-		
-		if(find_all_value!='location'):
-			z=sched.find_all(find_all_value)
+def scrape_city_and_states(url,csv,limit):
+	cities_and_states=[]
+	i=0
+	limit_count=0
+	for name in scraper(url).find_all('td'):
+		z=(name.text).split('[')
+		if(not hasNum(z[0])):
+			zz=z[0].split('\n')
+			if(i==0):
+				x=zz[0]
+				i=1
+			else:
+				i=0
+				y=zz[0]
+				limit_count+=1
+				csv.append([str(x.encode('utf-8'))+" "+str(y.encode('utf-8')),0,0,0,0,0,0,0,0,0])
+				cities_and_states.append((str(x.encode('utf-8')),str(y.encode('utf-8'))))
+				if(limit_count==limit):
+					break
 		else:
-			z=sched.find_all(href=re.compile(find_all_value))
-		for info in z:
-			current_city=additional_checks2(list_to_check,info.text,y)
-			if(current_city in info.text):	#increment for each city
-				csvData[count][num]+=1
+			continue
+	return cities_and_states
+		
 
 
 
-
-
-
-
-
-
-#extra cases
-additionals=['Flushing','Bronx','Brooklyn','Manhattan','Queens','Staten Island']
-city_count=0
-citylist=[]
-missing_data_exception(city_table)
-missing_data_exception(stadium_table)
-for link in city_table.find_all('tr'):
-	#Each column count resets
-	nl_football=0
-	ml_baseball=0
-	ml_soccer=0
-	football=0
-	baseball=0
-	soccer=0
-	current_city=""#one of the top cities 
-	city_count=city_count+1
-	if(city_count<7):#Max number of rows
-		city = link.find('a')
-		state=((city.find_next("a",title=True)))
-		if (city.text != '[c]' and city!=None):#IN CASE WEB PAGE IS ALTERED
-			for stadium_city in stadium_table.find_all('tr'):
-				current_city=additional_checks(additionals,stadium_city.text,city.text,state.text)	
-				if(current_city in stadium_city.text):
-				#stadium_city.has_attr("style") is only used for major league
-					if(stadium_city.has_attr("style")):
-						if('Football' in stadium_city.text):
-							nl_football+=1
-						elif('Baseball' in stadium_city.text): 
-							ml_baseball+=1
-						elif('Soccer' in stadium_city.text):
-							ml_soccer+=1
-					else:
-						if('Football' in stadium_city.text):
-							football+=1
-						elif('Baseball' in stadium_city.text): 
-							baseball+=1
-						elif('Soccer' in stadium_city.text):
-							soccer+=1
+def scrape_stadiums(url,locations,csv,additionals):
+	row=0
+	for city_state in locations:
+		row+=1	
+		for stadium_city_state in scraper(url).find_all('tr'):
+			#x=stadium_city_state.find(title=re.compile(','))
+			stadium_city2=str((stadium_city_state.text).encode('utf-8'))
+			#if(x != None):
+			#	z=x["title"].split(',')
+			#	stadium_city=z[0]
+			#else:
+			#	stadium_city="n"
+			current_state=str(city_state[1])
+			current_city=str(additional_checks(additionals,stadium_city2,city_state[0]))
+			if((current_city in stadium_city2)):
+				y=stadium_city_state
+				if(y.has_attr("style")):
+					if('Football' in y.text):
+						column=csv[0].index('NL_Football')
+						csv[row][column]+=1
+					elif('Baseball' in y.text): 
+						column=csv[0].index('ML_Baseball')
+						csv[row][column]+=1
+					elif('Soccer' in y.text):
+						column=csv[0].index('ML_Soccer')
+						csv[row][column]+=1
 				else:
-					continue
-			citylist.append(city.text)
-			csvData.append([city.text,state.text,nl_football,ml_baseball,ml_soccer,football,baseball,soccer, 0, 0,0])
+					if('Football' in y.text):
+						column=csv[0].index('football')
+						csv[row][column]+=1
+					elif('Baseball' in y.text): 
+						column=csv[0].index('baseball')
+						csv[row][column]+=1
+					elif('Soccer' in y.text):
+						column=csv[0].index('soccer')
+						csv[row][column]+=1
+	#stadium_locations.append((z[0],z[1],))
+	return csv
+
+
+def scrape_comic_or_concerts(url,locations,csv,additionals, find_all_value,column):
+	row=0
+	if(find_all_value!='location'):
+		z=(scraper(url)).find_all(find_all_value)
 	else:
-		break
-		
-		
+		z=(scraper(url)).find_all(href=re.compile(find_all_value))
+	for city_state in locations:
+		row+=1
+		for info in z:
+			current_city=additional_checks(additionals,info,city_state[0])
+			if(current_city in info.text):	#increment for each city
+				csv[row][column]+=1
+	return csv
 
 
 
 
 
-additionals.append('New York, NY')# extra cases
-additionals.append('Garden City')
-scanner_one(comic_sched,citylist,8,additionals,'p')
-scanner_one(dave_sched,citylist,9,additionals,"location")
 
 
 
 
-#Loop only for ariana and not chapelle because ariana has multiple pages 
-i=1
-while(i<10):
-	url5="https://www.concertarchives.org/bands/ariana-grande?page="+str(i)
-	page5 = requests.get(url5)
-	soup5 = BeautifulSoup(page5.content, 'html.parser')
-	ariana_sched = soup5.find(class_ = "table-responsive")
-	ariana_sched_page = soup5.find(class_ = "pagination pagination")
-	if(str(i) not in ariana_sched_page.text):#only 6 pages
-		break
-	scanner_one(ariana_sched,citylist,10,additionals,"location")
-	i+=1
+def scrape_other_urls(url,city_and_state_tuples,csv,additionals):
+	if('wikipedia' in url):
+		return scrape_stadiums(url,city_and_state_tuples,csv,additionals)
+	elif('previews' in url):
+		return scrape_comic_or_concerts(url,city_and_state_tuples,csv,additionals,'p',csv[0].index('Active Comic-Con'))
+	elif('ariana' in url):
+		page_count=1
+		while(page_count<10):
+			urlx=url+str(page_count)
+			page5 = requests.get(urlx)
+			soup5 = BeautifulSoup(page5.content, 'html.parser')
+			ariana_sched = soup5.find(class_ = "table-responsive")
+			ariana_sched_page = soup5.find(class_ = "pagination pagination")
+			if(str(page_count) not in ariana_sched_page.text):#only 6 pages
+				break
+			csv=scrape_comic_or_concerts(urlx,city_and_state_tuples,csv,additionals,'location',csv[0].index('Ariana Grande Events'))
+			page_count+=1
+		return csv
+	elif('concertarchives' in url):
+		return scrape_comic_or_concerts(url,city_and_state_tuples,csv,additionals,'location',csv[0].index('Dave Chapelle Events'))
+	return 
 
 
 
 
 
+
+#1. First we initialize the rows of data for each city we obtain
+csvData=[['City_State','NL_Football','ML_Baseball','ML_Soccer','football','baseball',
+'soccer', 'Active Comic-Con', 'Dave Chapelle Events','Ariana Grande Events']]
+
+#2. We start off the the initial, top cities page from wikipedia
+city_url = 'https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population'
+city_and_state_tuples=scrape_city_and_states(city_url,csvData,5)
+
+
+#3. Villages/Boroughs within cities 
+additionals=['Flushing','Bronx','Brooklyn','Manhattan','Queens','Staten Island', 'New York, NY', 'Garden City']
+
+
+
+
+
+#4. Compare data from list of cities to other web pages 
+entertainment_urls=[]
+entertainment_urls.append('https://en.wikipedia.org/wiki/List_of_U.S._stadiums_by_capacity')
+entertainment_urls.append('https://www.previewsworld.com/Article/87466-Comic-Convention-Calendar')
+entertainment_urls.append('https://www.concertarchives.org/bands/dave-chappelle')
+entertainment_urls.append('https://www.concertarchives.org/bands/ariana-grande?page=')
+
+
+
+for current_url in entertainment_urls:
+	csvData=scrape_other_urls(current_url,city_and_state_tuples,csvData,additionals)
 
 csv_generator(csvData)
+
+
+

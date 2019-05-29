@@ -6,34 +6,26 @@ data(mainly numerical)
 
 ## Description
 MajorCityEntertainment makes use of more than one web page to go past basic city 
-information and go more specifically into entertainment culture to see what makes a city
+information and go more specifically into entertainment culture to see what makes cities
 unique
 
 
 ## Ver 1.0: Cities, Sport Stadiums Built
-Is there a major difference for top cities in the number of stadiums for each sport
-that they have? The application currently obtains the names of the most populous cities
-and the number of stadiums opened for sports such as Football,
-Soccer and Baseball corresponding to those cities to examine if there is 
-a similar trend or not.
-
+Is there a major difference between top cities in the number of stadiums for each sport
+that they have?(Examines built stadiums associated with each city)
 
 ## Ver 2.0: Adding Comic - Cons
-Going beyond stadiums, ver 2.0 will check if there is a relationship between
-stadiums and the number of ACTIVE comic-cons along with if the number of comic-cons 
-is unique for each city. 
+Is there a more difference expressed between top cities in the 
+when accounting for the number of comic-cons they have?
 
 ## Ver 3.0: Adding number of times Dave Chapelle had an event
-Does the number of times a comedy celebrity visits a city emphasize difference between cities?
-Ver 3.0, adds a more specific data set by helping to view 
-the number of times a celebrity such as Dave Chapelle has visited each of these cities. 
+Is there a more difference expressed between top cities in the 
+when accounting for the number of Dave Chapelle Live Events they have?
 
 
 ## Ver 4.0(Current Version): Adding number of times Ariana Grande had an event
-Does the number of times a music celebrity visits 
-a city emphasize difference between cities?
-Ver 4.0, helps view the number
-of times a celebrity such as Ariana Grande has visited each of these cities. 
+Is there a more difference expressed between top cities in the 
+when accounting for the number of Ariana Grande Live Events they have? 
 
 
 
@@ -54,8 +46,12 @@ a list and not just a table
 are currently examining 
 
 7. Ariana Grande Events: Can obtain information from multiple pages with little changes to
-the scanner_one algorithm 
+the scrapeotherurls function
 
+8. The code itself uses doesn't involve changing variables globally and instead uses call
+by value while returning the value edited(mainly the csvData)
+
+9. The amount of cities examined can be changed with the limit variable
 
 
 ## Tools/Languages/References
@@ -73,7 +69,6 @@ the scanner_one algorithm
 [Requests](https://pypi.org/project/requests/2.7.0/)
 
 **OS Used:** 
-
 -Mac OS(Terminal)
 
 
@@ -114,14 +109,26 @@ A file named, output.csv(specified in the code) will be created in the proper cs
 
 ## Functions
 
-scanner_one: a function to scan similar web pages in a similar fashion 
+csv_generator: generates csv with given rows 
 
-missing_data_exception: used to check if missing the expected html value, exit program 
+scraper: base scraping algorithm where the class values are set
+
+hasNum: function mainly used to disregard non-city names values for 
+the U.S. cities
 
 additional_checks: checks for villages/boroughs within a city
 
-csv_generator: generates csv with given rows 
+scrape_city_and_states: returns a list of tuples(cityx,statex) for a number of cities
+equal to the limit variable  
 
+scrape_stadiums: edits and returns edits csv data after examining data from 
+list of stadiums page
+
+scrape_comic_or_concerts: edits and returns edits csv data after examining data from 
+Comic Con, Dave Chapelle, and ariana Grande Schedules 
+
+scrape_other_urls: function to decide which scraper function is best suited for the given
+parameters 
 
 
 ## Example
