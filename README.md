@@ -1,7 +1,7 @@
 # MajorCityEntertainment
 MajorCitySports is a web-scraping application devoted for Topos.ai 
-for examining if there are major differences between top cities through entertainment 
-by generating a csv(output.csv) to allow for easier visualization of the 
+to examine major differences between top cities through entertainment 
+by generating a csv(output.csv) allowing easier visualization of the 
 data(mainly numerical)
 
 ## Description
@@ -11,20 +11,18 @@ unique
 
 
 ## Ver 1.0: Cities, Sport Stadiums Built
-Is there a major difference between top cities in the number of stadiums for each sport
-that they have?(Examines built stadiums associated with each city)
+Is there a major difference between top cities in the number of stadiums a city's sports team/tenant establishes its residency?(Examines built stadiums associated with each city)
 
 ## Ver 2.0: Adding Comic - Cons
-Is there a more difference expressed between top cities in the 
-when accounting for the number of comic-cons they have?
+Is there a difference expressed between top cities when accounting for the number of comic-cons they have?
 
 ## Ver 3.0: Adding number of times Dave Chapelle had an event
-Is there a more difference expressed between top cities in the 
+Is there a difference expressed between top cities 
 when accounting for the number of Dave Chapelle Live Events they have?
 
 
 ## Ver 4.0(Current Version): Adding number of times Ariana Grande had an event
-Is there a more difference expressed between top cities in the 
+Is there a difference expressed between top cities
 when accounting for the number of Ariana Grande Live Events they have? 
 
 
@@ -37,19 +35,18 @@ when accounting for the number of Ariana Grande Live Events they have?
 3. Generates a csv file which can be analyzed alongside other data to see how 
 a variety of entertainment can have an impact on a neighborhood's culture
 
-4. Sport Stadiums: Separates Major League owned Stadiums and non-Major League owned Stadiums
+4. Sport Stadiums: Separates Major League owned Stadiums and non-Major League owned Stadiums 
 
-5. Comic-Cons: Captures data regarding upcoming comic-cons from 
-a list and not just a table 
+5. Comic-Cons: Captures data regarding upcoming comic-cons from a list and not just a table 
 
 6. Dave Chapelle Events: Focuses on location links to match with major cities that we
 are currently examining 
 
 7. Ariana Grande Events: Can obtain information from multiple pages with little changes to
-the scrapeotherurls function
+the scrape_other_urls function
 
-8. The code itself uses doesn't involve changing variables globally and instead uses call
-by value while returning the value edited(mainly the csvData)
+8. The code itself doesn't involve changing variables globally and instead uses call
+by value while returning the value edited(mainly for csvData)
 
 9. The amount of cities examined can be changed with the limit variable
 
@@ -135,44 +132,38 @@ parameters
 <img width="1280" alt="Screen Shot 2019-05-29 at 6 08 44 PM" src="https://user-images.githubusercontent.com/13366041/58594866-d8e44d00-823c-11e9-8dd6-f95e2cf8a0de.png">
 
 
-Stadiums Results: At first glance, the number of sports stadiums opened
-vary greatly for each major city, except Phoenix most likely due to most stadiums 
-being outside of the city itself
+Stadiums Results: The number of sports stadiums within the metropolitan area for each sport 
+vary greatly for each major city, except for Phoenix with the least. The NFL's Arizona Cardinals do not establish their residency in Phoenix, although the stadium is located in the metropolitan area, which contributes to its outlier position.
 
 Comic-Con Results: New York City seems to have the most Comic-cons while 
 Phoenix is shown to not have any at all. 
 
-Dave Chapelle Shows: From this example, it seems New York and Houston have more  
+Dave Chapelle Shows: From this example, it suggests New York and Houston have more  
 Dave Chapelle Events while other cities have very little. 
 
-Ariana Grande: It also appears that Ariana Grande appears a lot in New York City.
+Ariana Grande: Data suggests that Ariana Grande performs frequently live in New York City.
 
-So far New York City, having the most comic-cons every year
-while hosting comedians such as Dave Chapelle and 
-singers such as Ariana Grande, and Phoenix, having not many events for any of the categories, appear to be the most different.
-However, a conclusion can't be truly given on whether their is a major difference
-between cities since data sets and web site sources such as
-wikipedia do not always give valid estimates 
-and there may be outliers that have yet to be examined. 
+From this example, it seems that New York City and Phoenix appear to be the most different.
+However, a conclusion can't be formulated since web site sources such as
+Wikipedia do not always provide valid estimates and there may be outliers that have yet to be examined. 
 
-The csv is generated in the proper format, however,
-allowing for more in-depth visualization and analysis. 
+
 
 ## Important Notes:
 
-**NOTE 1:** Adding state column since there can be more than
+**NOTE 1:** Adding state in first column since there can be more than
 one city with the same name
 Ex: Manhattan, NY vs. Manhattan, KS
 
 **NOTE 2:** A stadium is counted for certain city also when a sport 
-tenant/team from that city owns the stadium 
+tenant/team from that city establishes its residency at the stadium 
 
 **NOTE 3:** The stadiums focused on include stadiums that were 
 renovated and/or closed down 
 
 **NOTE 4:** Currently focusing on Football, Soccer and Baseball stadiums 
 
-**NOTE 5:** Comic-con data, Dave Chapelle Events, and Ariana Grande 
+**NOTE 5:** Comic-cons, Dave Chapelle Events, and Ariana Grande Events
 do not come from wikipedia 
 
 
