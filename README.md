@@ -30,7 +30,7 @@ when accounting for the number of Ariana Grande Live Events they have?
 
 
 ## Advantages
-1.Scans and analyzes more than one table on the web
+1. Scans and analyzes more than one table on the web
 
 2. Focuses on amounts so can be transferred easily to a bar graph 
 
