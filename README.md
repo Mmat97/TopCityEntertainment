@@ -1,6 +1,5 @@
 # MajorCityEntertainment
-MajorCitySports is a web-scraping application devoted for Topos.ai 
-to examine major differences between top cities through entertainment 
+MajorCitySports is a web-scraping application to examine major differences between top cities through entertainment 
 by generating a csv(output.csv) allowing easier visualization of the 
 data(mainly numerical)
 
